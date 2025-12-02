@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Prata&display=swap');
+@import "tailwindcss";
+
+*{
+    font-family: Outfit;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+select, input, textarea{
+    border: 1px solid #c2c2c2;
+    outline-color: #ca896b;
+    border-radius: 4px;
+}
+.active{
+    background-color: hsl(18, 88%, 90%);
+    border-color: #ca896b;
+}
