@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { assets } from '../assets/assets'
 import axios from 'axios'
-import { backendUrl } from '../App'
+const backendUrl = import.meta.env.VITE_BACKEND_URL
 import { toast } from 'react-toastify'
 
 const Add = ({ token }) => {

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { ShopContext } from '../context/ShopContext'
+import { ShopContext } from '../context/context'
 import ProductItem from './ProductItem'
 import Title from './Title'
 
@@ -13,15 +13,15 @@ const BestSeller = () => {
   }, [products])
 
   return (
-    <section className="bg-[#fafaf7] py-16 px-4 sm:px-8 lg:px-16">
+    <section className="bg-[#f8fafc] py-16 px-4 sm:px-8 lg:px-16">
       <div className="text-center text-3xl pb-8">
         <Title text1={'BEST'} text2={'SELLER'} />
-        <p className="w-3/4 m-auto text-xs sm:text-sm md:text-base text-[#5C4033] mt-2">
-          Your next favorite is already a bestseller
+        <p className="w-3/4 m-auto text-xs sm:text-sm md:text-base text-[#0F172A] mt-2">
+          Most-loved timepieces chosen by our community
         </p>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 gap-y-6">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
         {bestSeller.map((item, index) => (
           <ProductItem
             key={index}

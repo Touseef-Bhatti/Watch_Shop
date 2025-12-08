@@ -12,8 +12,8 @@ const placeOrder = async (req, res) => {
             items,
             address,
             amount,
-            payementMethod: "COD",
-            payement: false,
+            paymentMethod: "COD",
+            payment: false,
             date: Date.now()
         }
 
@@ -22,28 +22,52 @@ const placeOrder = async (req, res) => {
 
         await userModel.findByIdAndUpdate(userId, {cartData: {}})
 
-        res.json({success: true, message: 'Order Placed'})
+        res.status(201).json({success: true, message: 'Order Placed'})
 
     } catch (error) {
         console.log(error);
-        res.json({success: false, message: error.message})
+        res.status(500).json({success: false, message: error.message})
     }
 }
 
 
 // Placing order using Stripe
 const placeOrderStripe = async (req, res) => {
-    
+    try {
+        const { userId, items, amount, address } = req.body;
+        const orderData = {
+            userId,
+            items,
+            address,
+            amount,
+            paymentMethod: "STRIPE",
+            payment: false,
+            date: Date.now()
+        }
+        const newOrder = new orderModel(orderData)
+        await newOrder.save()
+        await userModel.findByIdAndUpdate(userId, {cartData: {}})
+        res.status(201).json({success: true, message: 'Order initiated'})
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({success: false, message: error.message})
+    }
 }
 
 // All orders for admin
 const allOrders = async (req, res) => {
     try {
         const orders = await orderModel.find({})
-        res.json({success: true, orders})
+        const normalized = orders.map(o => {
+            const obj = o.toObject()
+            obj.payment = obj.payment ?? obj.payement
+            obj.paymentMethod = obj.paymentMethod ?? obj.payementMethod
+            return obj
+        })
+        res.status(200).json({success: true, orders: normalized})
     } catch (error) {
         console.log(error);
-        res.json({success: false, message: error.message})
+        res.status(500).json({success: false, message: error.message})
     }
     
 }
@@ -53,10 +77,16 @@ const userOrders = async (req, res) => {
     try {
         const { userId } = req.body;
         const orders = await orderModel.find({userId})
-        res.json({success: true, orders})
+        const normalized = orders.map(o => {
+            const obj = o.toObject()
+            obj.payment = obj.payment ?? obj.payement
+            obj.paymentMethod = obj.paymentMethod ?? obj.payementMethod
+            return obj
+        })
+        res.status(200).json({success: true, orders: normalized})
     } catch (error) {
         console.log(error);
-        res.json({success: false, message: error.message})
+        res.status(500).json({success: false, message: error.message})
     }
     
 }
@@ -66,10 +96,10 @@ const updateStatus = async (req, res) => {
     try {
         const { orderId, status } = req.body;
         await orderModel.findByIdAndUpdate(orderId, { status })
-        res.json({success: true, message: "Status Updated"})
+        res.status(200).json({success: true, message: "Status Updated"})
     } catch (error) {
         console.log(error);
-        res.json({success: false, message: error.message})
+        res.status(500).json({success: false, message: error.message})
     }
     
 }
@@ -78,13 +108,11 @@ const updateStatus = async (req, res) => {
 const updatePaymentStatus = async (req, res) => {
   try {
     const { orderId, paymentStatus } = req.body;
-    // Update the payment status (assuming your schema uses 'payement' field)
-    await orderModel.findByIdAndUpdate(orderId, { payement: paymentStatus });
-
-    res.json({ success: true, message: 'Payment status updated' });
+    await orderModel.findByIdAndUpdate(orderId, { $set: { payment: paymentStatus, payement: paymentStatus } });
+    res.status(200).json({ success: true, message: 'Payment status updated' });
   } catch (error) {
     console.log(error);
-    res.json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 

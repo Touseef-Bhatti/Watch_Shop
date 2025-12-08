@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import { backendUrl } from '../App' // or '../config' if you move it to config.js
+const backendUrl = import.meta.env.VITE_BACKEND_URL
 import {
   FaUsers,
   FaBoxOpen,
@@ -20,7 +20,7 @@ import {
 
 const Dashboard = () => {
   const [data, setData] = useState(null)
-  const [salesData, setSalesData] = useState([])
+  const [salesData, _] = useState([])
 
   useEffect(() => {
     const fetchDashboardData = async () => {

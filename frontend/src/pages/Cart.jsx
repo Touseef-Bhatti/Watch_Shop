@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { ShopContext } from '../context/ShopContext'
+import { ShopContext } from '../context/context'
 import Title from '../components/Title'
 import { assets } from '../assets/assets'
 import CartTotal from '../components/CartTotal'
@@ -27,7 +27,7 @@ const Cart = () => {
   }, [cartItems, products])
 
   return (
-    <div className="bg-[#fafaf7] pt-14 px-4 sm:px-8 text-[#5C4033] min-h-screen flex flex-col">
+    <div className="bg-[#0F172A] pt-14 px-4 sm:px-8 text-white min-h-screen flex flex-col">
       {/* Page Title */}
       <div className="text-2xl mb-3">
         <Title text1="YOUR" text2="CART" />
@@ -47,11 +47,7 @@ const Cart = () => {
               >
                 {/* Product Info */}
                 <div className="flex items-center gap-4 flex-1 min-w-0 flex-wrap sm:flex-nowrap">
-                  <img
-                    className="w-16 sm:w-20 flex-shrink-0 rounded-md shadow-sm"
-                    src={productData.image[0]}
-                    alt={productData.name}
-                  />
+                  <img className="w-16 sm:w-20 flex-shrink-0 rounded-md shadow-sm" src={productData.image[0]} alt={productData.name} />
                   <div className="min-w-0 flex-1">
                     <p className="text-sm sm:text-lg font-medium sm:truncate sm:whitespace-nowrap">
                       {productData.name}

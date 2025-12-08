@@ -7,7 +7,7 @@ const addToCart = async (req, res) => {
         const {userId, itemId, size} = req.body
         const userData = await userModel.findById(userId)
         if (!userData) {
-            return res.json({success: false, message: 'User not found'})
+            return res.status(404).json({success: false, message: 'User not found'})
         }
         
         let cartData = userData.cartData || {}
@@ -23,11 +23,11 @@ const addToCart = async (req, res) => {
             cartData[itemId][size] = 1
         }
         await userModel.findByIdAndUpdate(userId, { cartData });
-        res.json({success: true, message: 'Added To Cart'})
+        res.status(200).json({success: true, message: 'Added To Cart'})
 
     } catch (error) {
         console.log(error);
-        res.json({success: false, message: error.message})
+        res.status(500).json({success: false, message: error.message})
     }
 }
 
@@ -57,11 +57,11 @@ const updateCart = async (req, res) => {
         }
 
         await userModel.findByIdAndUpdate(userId, { cartData });
-        res.json({success: true, message: 'Cart Updated'})
+        res.status(200).json({success: true, message: 'Cart Updated'})
         
     } catch (error) {
         console.log(error);
-        res.json({success: false, message: error.message})
+        res.status(500).json({success: false, message: error.message})
     }
 
 }
@@ -74,14 +74,14 @@ const getUserCart = async (req, res) => {
         const { userId } = req.body
         const userData = await userModel.findById(userId)
         if (!userData) {
-            return res.json({success: false, message: 'User not found'})
+            return res.status(404).json({success: false, message: 'User not found'})
         }
         let cartData = userData.cartData || {}
-        res.json({success: true, cartData})
+        res.status(200).json({success: true, cartData})
         
     } catch (error) {
         console.log(error);
-        res.json({success: false, message: error.message})
+        res.status(500).json({success: false, message: error.message})
     }
 
 }

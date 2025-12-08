@@ -6,12 +6,12 @@ import Add from './pages/Add'
 import Dashboard from './pages/Dashboard'
 import List from './pages/List'
 import Orders from './pages/Orders'
+import Edit from './pages/Edit'
 import Login from './pages/Login'
 import { ToastContainer } from 'react-toastify';
 
-export const backendUrl = import.meta.env.VITE_BACKEND_URL
-export const currency = 'Rs'
- 
+export const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:4000';
+
 const App = () => {
   const [token, setToken] = useState(localStorage.getItem('token') ? localStorage.getItem('token') : '');
 
@@ -38,6 +38,7 @@ const App = () => {
               <Route path='/' element={<Dashboard token={token}/>}/>
               <Route path='/add' element={<Add token={token}/>}/>
               <Route path='/list' element={<List token={token}/>}/>
+              <Route path='/edit/:productId' element={<Edit token={token}/>}/>
               <Route path='/orders' element={<Orders token={token}/>}/>
             </Routes>
           </div>

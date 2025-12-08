@@ -6,8 +6,8 @@ const orderSchema = new mongoose.Schema({
     amount: {type: Number, require:true},
     address: {type: Object, require:true},
     status: {type: String, require:true, default: 'Order Placed'},
-    payementMethod: {type: String, require:true},
-    payement: {type: Boolean, require:true, default: false},
+    paymentMethod: {type: String, require:true},
+    payment: {type: Boolean, require:true, default: false},
     date: {type: Number, required: true}
 })
 

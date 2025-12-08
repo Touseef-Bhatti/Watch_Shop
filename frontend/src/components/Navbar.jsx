@@ -1,19 +1,12 @@
 import React, { useContext, useState } from 'react'
 import { assets } from '../assets/assets'
 import { Link, NavLink, useLocation } from 'react-router-dom'
-import { ShopContext } from '../context/ShopContext'
+import { ShopContext } from '../context/context'
 
 const Navbar = () => {
   const [visible, setVisible] = useState(false)
   const [dropdownOpen, setDropdownOpen] = useState(false)
-  const {
-    setShowSearch,
-    getCartCount,
-    navigate,
-    token,
-    setToken,
-    setCartItems
-  } = useContext(ShopContext)
+  const { setShowSearch, getCartCount, navigate, token, setToken, setCartItems } = useContext(ShopContext)
 
   const location = useLocation()
   const isCollectionPage = location.pathname === '/collection'
@@ -27,15 +20,15 @@ const Navbar = () => {
   }
 
   return (
-    <header className="bg-white shadow-md sticky top-0 z-50 mb-2">
-      <nav className="flex items-center justify-between px-5 sm:px-10 py-4">
+    <header className="bg-[#0F172A] shadow-md sticky top-0 z-50 mb-2">
+      <nav className="flex items-center justify-between px-5 sm:px-10 py-4 text-white">
         {/* Logo */}
         <Link to="/">
           <img src={assets.logo} className="w-36 sm:w-40" alt="Lederdorf Logo" />
         </Link>
 
         {/* Navigation Links - Desktop */}
-        <ul className="hidden sm:flex gap-8 text-sm text-[#5C4033] tracking-wide font-medium">
+        <ul className="hidden sm:flex gap-8 text-sm text-white tracking-wide font-medium">
           {['Home', 'Collection', 'About', 'Contact'].map((label, idx) => {
             const to = label === 'Home' ? '/' : `/${label.toLowerCase()}`
             return (
@@ -45,8 +38,8 @@ const Navbar = () => {
                 className={({ isActive }) =>
                   `relative pb-1 transition-all duration-300 ease-in-out ${
                     isActive
-                      ? 'text-[#b97111] after:absolute after:left-0 after:bottom-0 after:w-full after:h-[2px] after:bg-[#b97111]'
-                      : 'hover:text-[#b97111]'
+                      ? 'text-[#D4AF37] after:absolute after:left-0 after:bottom-0 after:w-full after:h-[2px] after:bg-[#D4AF37]'
+                      : 'hover:text-[#D4AF37]'
                   }`
                 }
               >
@@ -57,7 +50,7 @@ const Navbar = () => {
         </ul>
 
         {/* Icons */}
-        <div className="flex items-center gap-5 text-[#5C4033]">
+        <div className="flex items-center gap-5 text-white">
           {/* Search (only on collection) - visible on all screen sizes */}
           {isCollectionPage && (
             <img

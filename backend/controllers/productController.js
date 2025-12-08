@@ -82,3 +82,43 @@ const singleProduct = async(req, res) => {
 }
 
 export { addProduct, listProduct, removeProduct, singleProduct }
+
+// Update product
+const updateProduct = async (req, res) => {
+    try {
+        const { id, name, description, price, category, sizes, bestseller } = req.body;
+
+        const update = {
+            ...(name !== undefined && { name }),
+            ...(description !== undefined && { description }),
+            ...(category !== undefined && { category }),
+            ...(price !== undefined && { price: Number(price) }),
+            ...(bestseller !== undefined && { bestseller: (bestseller === "true" || bestseller === true) }),
+            ...(sizes !== undefined && { sizes: typeof sizes === 'string' ? JSON.parse(sizes) : sizes })
+        }
+
+        const image1 = req.files?.image1?.[0]
+        const image2 = req.files?.image2?.[0]
+        const image3 = req.files?.image3?.[0]
+        const image4 = req.files?.image4?.[0]
+        const images = [image1, image2, image3, image4].filter(Boolean)
+
+        if (images.length > 0) {
+            const imagesUrl = await Promise.all(
+                images.map(async (item) => {
+                    const result = await cloudinary.uploader.upload(item.path, { resource_type: 'image' });
+                    return result.secure_url
+                })
+            )
+            update.image = imagesUrl
+        }
+
+        await productModel.findByIdAndUpdate(id, { $set: update })
+        res.json({ success: true, message: 'Product Updated' })
+    } catch (error) {
+        console.log(error);
+        res.json({ success: false, message: error.message })
+    }
+}
+
+export { updateProduct }

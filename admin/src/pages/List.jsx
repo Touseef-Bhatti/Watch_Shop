@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import { backendUrl, currency } from '../App'
+const backendUrl = import.meta.env.VITE_BACKEND_URL
+const currency = 'Rs'
 import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
 
 const List = ({ token }) => {
   const [list, setList] = useState([])
+  const navigate = useNavigate()
 
   const fetchList = async () => {
     try {
@@ -70,13 +73,25 @@ const List = ({ token }) => {
               {currency} {item.price}
             </div>
 
-            <button
-              onClick={() => removeProduct(item._id)}
-              className="text-red-600 cursor-pointer hover:text-red-800 font-bold text-xl md:text-lg transition-colors duration-200 mx-auto md:mx-0"
-              aria-label={`Remove product ${item.name}`}
-            >
-              &times;
-            </button>
+            <div className="flex items-center justify-center md:justify-start gap-3">
+              {/* <button
+                onClick={() => navigate(`/edit/${item._id}`)}
+                className="px-3 py-1 border rounded text-sm hover:bg-gray-100"
+              >
+                Edit
+              </button> */}
+              <button
+                onClick={() => {
+                  if (window.confirm(`Are you sure you want to remove ${item.name}?`)) {
+                    removeProduct(item._id)
+                  }
+                }}
+                className="text-red-600 cursor-pointer hover:text-red-800 font-bold text-xl md:text-lg transition-colors duration-200"
+                aria-label={`Remove product ${item.name}`}
+              >
+                &times;
+              </button>
+            </div>
           </div>
         ))}
       </div>
