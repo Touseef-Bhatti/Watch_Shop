@@ -1,10 +1,9 @@
-import { useEffect, useState, useCallback } from "react";
-import { ShopContext } from './context'
+import { createContext, useEffect, useState, useCallback } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import api from '../lib/api'
-export { ShopContext } from './context'
+import axios from 'axios'
 
+export const ShopContext = createContext();
 
 const ShopContextProvider = (props) => {
     const currency = 'Rs';
@@ -15,7 +14,7 @@ const ShopContextProvider = (props) => {
     const [cartItems, setCartItems] = useState({});
     const navigate = useNavigate();
     const [products, setProducts] = useState([]);
-    const [token, setToken] = useState(localStorage.getItem('token') || '')
+    const [token, setToken] = useState('')
 
    const addToCart = async (itemId, size) => {
         const product = products.find((p) => p._id === itemId);
@@ -47,16 +46,9 @@ const ShopContextProvider = (props) => {
                 cartData[itemId][selectedSize] = 1;
         }
         setCartItems(cartData);
-        // show popup toast for successful add-to-cart
-        try {
-            const productName = product?.name || 'Product';
-            toast.success(`${productName} added to cart`);
-        } catch (e) {
-            console.error('Toast error', e);
-        }
         if (token) {
             try {
-                await api.post('/api/cart/add', {itemId, size})
+                await axios.post(backendUrl + '/api/cart/add', {itemId, size}, {headers: {token}})
             } catch (error) {
                 console.log(error);
                 toast.error(error.message)
@@ -90,7 +82,7 @@ const ShopContextProvider = (props) => {
 
         if (token) {
             try {
-                await api.post('/api/cart/update', {itemId, size, quantity})
+                await axios.post(backendUrl + '/api/cart/update', {itemId, size, quantity}, {headers: {token}})
             } catch (error) {
                 console.log(error);
                 toast.error(error.message)
@@ -118,7 +110,7 @@ const ShopContextProvider = (props) => {
 
     const getProductsData = async () => {
         try {
-            const response = await api.get('/api/product/list');
+            const response = await axios.get(backendUrl + '/api/product/list');
             if (response.data.success) {
                 setProducts(response.data.products);
             } else {
@@ -137,7 +129,7 @@ const ShopContextProvider = (props) => {
                 console.error('Backend URL is not configured. Please set VITE_BACKEND_URL in your .env file');
                 return;
             }
-            const response = await api.post('/api/cart/get', {})
+            const response = await axios.post(backendUrl + '/api/cart/get', {}, {headers: {token}})
 
             if (response.data.success) {
                 setCartItems(response.data.cartData || {})
@@ -159,7 +151,13 @@ const ShopContextProvider = (props) => {
     },[])
 
 
-    
+    useEffect(() => {
+        if(!token && localStorage.getItem('token')){
+            const savedToken = localStorage.getItem('token')
+            setToken(savedToken)
+            getUserCart(savedToken)
+        }
+    }, [])
 
     // Load cart when token changes
     useEffect(() => {

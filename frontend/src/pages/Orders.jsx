@@ -1,25 +1,25 @@
-import React, { useContext, useState, useEffect, useCallback } from 'react'
-import { ShopContext } from '../context/context'
+import React, { useContext, useState, useEffect } from 'react'
+import { ShopContext } from '../context/ShopContext'
 import Title from '../components/Title'
-import api from '../lib/api'
+import axios from 'axios'
 
 const Orders = () => {
-  const { currency, token } = useContext(ShopContext)
+  const { currency, backendUrl, token } = useContext(ShopContext)
   const [orderData, setOrderData] = useState([])
   const [loading, setLoading] = useState(false)
 
-  const loadOrderData = useCallback(async () => {
+  const loadOrderData = async () => {
     try {
       if (!token) return null
       setLoading(true)
-      const response = await api.post('/api/order/userorders', {})
+      const response = await axios.post(backendUrl + '/api/order/userorders', {}, { headers: { token } })
       if (response.data.success) {
         let allOrdersItem = []
         response.data.orders.forEach((order) => {
           order.items.forEach((item) => {
             item.status = order.status
-            item.payment = order.payment
-            item.paymentMethod = order.paymentMethod
+            item.payement = order.payement
+            item.payementMethod = order.payementMethod
             item.date = order.date
             allOrdersItem.push(item)
           })
@@ -31,22 +31,22 @@ const Orders = () => {
     } finally {
       setLoading(false)
     }
-  }, [token])
+  }
 
   useEffect(() => {
     loadOrderData()
-  }, [loadOrderData])
+  }, [token])
 
   return (
-    <div className="pt-16 bg-[#0F172A] min-h-screen px-4 sm:px-8 text-white relative">
+    <div className="pt-16 bg-[#fafaf7] min-h-screen px-4 sm:px-8 text-[#5C4033] relative">
       <div className="text-3xl font-semibold mb-8">
         <Title text1={'MY'} text2={'ORDERS'} />
       </div>
 
       {/* Loading overlay */}
       {loading && (
-        <div className="absolute inset-0 bg-black/40 flex justify-center items-center z-10">
-          <p className="text-[#D4AF37] text-xl font-semibold">Loading...</p>
+        <div className="absolute inset-0 bg-white bg-opacity-70 flex justify-center items-center z-10">
+          <p className="text-[#b97111] text-xl font-semibold">Loading...</p>
         </div>
       )}
 
@@ -58,7 +58,7 @@ const Orders = () => {
         {orderData.map((item, index) => (
           <div
             key={index}
-            className="bg-white rounded-md shadow-sm border border-[#e5e7eb] p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-6 hover:shadow-lg transition-shadow duration-300"
+            className="bg-white rounded-md shadow-sm border border-[#b97111] p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-6 hover:shadow-lg transition-shadow duration-300"
           >
             <div className="flex items-start gap-5 text-sm md:text-base w-full md:w-auto">
               <img
@@ -79,7 +79,7 @@ const Orders = () => {
                   Date: <span>{new Date(item.date).toDateString()}</span>
                 </p>
                 <p className="text-sm text-gray-500">
-                  Payment Method: <span>{item.paymentMethod}</span>
+                  Payment Method: <span>{item.payementMethod}</span>
                 </p>
               </div>
             </div>
@@ -101,7 +101,7 @@ const Orders = () => {
               <button
                 onClick={loadOrderData}
                 disabled={loading}
-                className={`border border-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#0F172A] text-[#0F172A] rounded-md px-5 py-2 text-sm font-semibold transition-colors duration-300 ${
+                className={`border border-[#5C4033] hover:border-[#b97111] hover:bg-[#b97111] hover:text-white text-[#5C4033] rounded-md px-5 py-2 text-sm font-semibold transition-colors duration-300 ${
                   loading ? 'cursor-not-allowed opacity-60' : ''
                 }`}
               >

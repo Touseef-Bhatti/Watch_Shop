@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react'
 import Title from '../components/Title'
 import CartTotal from '../components/CartTotal'
-import { ShopContext } from '../context/context'
-import api from '../lib/api'
+import { ShopContext } from '../context/ShopContext'
+import axios from 'axios'
 import { toast } from 'react-toastify'
 
 const PlaceOrder = () => {
@@ -11,6 +11,8 @@ const PlaceOrder = () => {
 
   const {
     navigate,
+    backendUrl,
+    token,
     cartItems,
     setCartItems,
     delivery_fee,
@@ -67,7 +69,7 @@ const PlaceOrder = () => {
         amount: getCartAmount() + delivery_fee,
       }
 
-      const response = await api.post('/api/order/place', orderData)
+      const response = await axios.post(backendUrl + '/api/order/place', orderData, { headers: { token } })
 
       if (response.data.success) {
         toast.success('Your order has been placed successfully!')
@@ -86,8 +88,8 @@ const PlaceOrder = () => {
     <>
       {/* Overlay alert box */}
       {showBankAlert && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur bg-black/30">
-          <div className="bg-white px-6 py-4 rounded-lg shadow-lg border border-[#D4AF37] text-[#0F172A] text-center w-[90%] max-w-sm">
+        <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur bg-opacity-20">
+          <div className="bg-white px-6 py-4 rounded-lg shadow-lg border border-[#5C4033] text-[#5C4033] text-center w-[90%] max-w-sm">
             <p className="text-lg font-medium">Bank transfer is currently unavailable.</p>
           </div>
         </div>
@@ -96,7 +98,7 @@ const PlaceOrder = () => {
       {/* Main form */}
       <form
         onSubmit={onSubmitHandler}
-        className={`flex flex-col sm:flex-row justify-between gap-6 pt-6 sm:pt-14 min-h-[80vh] bg-[#0F172A] text-white px-4 sm:px-8`}
+        className={`flex flex-col sm:flex-row justify-between gap-6 pt-6 sm:pt-14 min-h-[80vh] bg-[#fafaf7] text-[#5C4033] px-4 sm:px-8`}
       >
         {/* Left side - delivery info */}
         <div className="flex flex-col gap-4 w-full sm:max-w-[480px]">
@@ -110,7 +112,7 @@ const PlaceOrder = () => {
               onChange={onChangeHandler}
               name="firstName"
               value={formData.firstName}
-              className="border border-[#e5e7eb] rounded py-2 px-3 w-full  focus:outline-none focus:ring-2 focus:ring-[#D4AF37]"
+              className="border border-[#5C4033] rounded py-2 px-3 w-full focus:outline-none focus:ring-2 focus:ring-[#b97111]"
               type="text"
               placeholder="First Name"
             />
@@ -119,7 +121,7 @@ const PlaceOrder = () => {
               onChange={onChangeHandler}
               name="lastName"
               value={formData.lastName}
-              className="border border-[#e5e7eb] rounded py-2 px-3 w-full  focus:outline-none focus:ring-2 focus:ring-[#D4AF37]"
+              className="border border-[#5C4033] rounded py-2 px-3 w-full focus:outline-none focus:ring-2 focus:ring-[#b97111]"
               type="text"
               placeholder="Last Name"
             />
@@ -130,7 +132,7 @@ const PlaceOrder = () => {
             onChange={onChangeHandler}
             name="email"
             value={formData.email}
-            className="border border-[#e5e7eb] rounded py-2 px-3 w-full  focus:outline-none focus:ring-2 focus:ring-[#D4AF37]"
+            className="border border-[#5C4033] rounded py-2 px-3 w-full focus:outline-none focus:ring-2 focus:ring-[#b97111]"
             type="email"
             placeholder="Email Address"
           />
@@ -140,7 +142,7 @@ const PlaceOrder = () => {
             onChange={onChangeHandler}
             name="street"
             value={formData.street}
-            className="border border-[#e5e7eb] rounded py-2 px-3 w-full  focus:outline-none focus:ring-2 focus:ring-[#D4AF37]"
+            className="border border-[#5C4033] rounded py-2 px-3 w-full focus:outline-none focus:ring-2 focus:ring-[#b97111]"
             type="text"
             placeholder="Street"
           />
@@ -151,7 +153,7 @@ const PlaceOrder = () => {
               onChange={onChangeHandler}
               name="city"
               value={formData.city}
-              className="border border-[#e5e7eb] rounded py-2 px-3 w-full  focus:outline-none focus:ring-2 focus:ring-[#D4AF37]"
+              className="border border-[#5C4033] rounded py-2 px-3 w-full focus:outline-none focus:ring-2 focus:ring-[#b97111]"
               type="text"
               placeholder="City"
             />
@@ -160,7 +162,7 @@ const PlaceOrder = () => {
               onChange={onChangeHandler}
               name="state"
               value={formData.state}
-              className="border border-[#e5e7eb] rounded py-2 px-3 w-full  focus:outline-none focus:ring-2 focus:ring-[#D4AF37]"
+              className="border border-[#5C4033] rounded py-2 px-3 w-full focus:outline-none focus:ring-2 focus:ring-[#b97111]"
               type="text"
               placeholder="State"
             />
@@ -172,7 +174,7 @@ const PlaceOrder = () => {
               onChange={onChangeHandler}
               name="zipcode"
               value={formData.zipcode}
-              className="border border-[#e5e7eb] rounded py-2 px-3 w-full  focus:outline-none focus:ring-2 focus:ring-[#D4AF37]"
+              className="border border-[#5C4033] rounded py-2 px-3 w-full focus:outline-none focus:ring-2 focus:ring-[#b97111]"
               type="number"
               placeholder="Zip Code"
             />
@@ -181,7 +183,7 @@ const PlaceOrder = () => {
               onChange={onChangeHandler}
               name="country"
               value={formData.country}
-              className="border border-[#e5e7eb] rounded py-2 px-3 w-full focus:outline-none focus:ring-2 focus:ring-[#D4AF37]"
+              className="border border-[#5C4033] rounded py-2 px-3 w-full focus:outline-none focus:ring-2 focus:ring-[#b97111]"
               type="text"
               placeholder="Country"
             />
@@ -192,7 +194,7 @@ const PlaceOrder = () => {
             onChange={onChangeHandler}
             name="phone"
             value={formData.phone}
-            className="border border-[#e5e7eb] rounded py-2 px-3 w-full  focus:outline-none focus:ring-2 focus:ring-[#D4AF37]"
+            className="border border-[#5C4033] rounded py-2 px-3 w-full focus:outline-none focus:ring-2 focus:ring-[#b97111]"
             type="tel"
             placeholder="Phone"
           />
@@ -209,21 +211,21 @@ const PlaceOrder = () => {
                 className={`flex items-center gap-3 border p-2 px-3 cursor-pointer rounded select-none
                   ${
                     method === 'bank'
-                      ? 'border-[#D4AF37] bg-[#0F172A]/10'
-                      : 'border-[#e5e7eb] hover:border-[#D4AF37]'
+                      ? 'border-[#b97111] bg-[#f2ece5]'
+                      : 'border-[#5C4033] hover:border-[#b97111]'
                   }`}
               >
                 <span
                   className={`min-w-4 min-h-4 border-2 rounded-full flex items-center justify-center
                     ${
                       method === 'bank'
-                        ? 'border-[#D4AF37] bg-[#D4AF37]'
-                        : 'border-[#e5e7eb]'
+                        ? 'border-[#b97111] bg-[#b97111]'
+                        : 'border-[#5C4033]'
                     }`}
                 >
                   {method === 'bank' && <span className="block w-2 h-2 bg-white rounded-full"></span>}
                 </span>
-                <p className="text-white text-sm font-medium">BANK TRANSFER</p>
+                <p className="text-[#5C4033] text-sm font-medium">BANK TRANSFER</p>
               </div>
 
               <div
@@ -231,27 +233,27 @@ const PlaceOrder = () => {
                 className={`flex items-center gap-3 border p-2 px-3 cursor-pointer rounded select-none
                   ${
                     method === 'cod'
-                      ? 'border-[#D4AF37] bg-[#0F172A]/10'
-                      : 'border-[#e5e7eb] hover:border-[#D4AF37]'
+                      ? 'border-[#b97111] bg-[#f2ece5]'
+                      : 'border-[#5C4033] hover:border-[#b97111]'
                   }`}
               >
                 <span
                   className={`min-w-4 min-h-4 border-2 rounded-full flex items-center justify-center
                     ${
                       method === 'cod'
-                        ? 'border-[#D4AF37] bg-[#D4AF37]'
-                        : 'border-[#e5e7eb]'
+                        ? 'border-[#b97111] bg-[#b97111]'
+                        : 'border-[#5C4033]'
                     }`}
                 >
                   {method === 'cod' && <span className="block w-2 h-2 bg-white rounded-full"></span>}
                 </span>
-                <p className="text-white text-sm font-medium">CASH ON DELIVERY</p>
+                <p className="text-[#5C4033] text-sm font-medium">CASH ON DELIVERY</p>
               </div>
             </div>
 
             <button
               type="submit"
-              className="mt-8 cursor-pointer bg-[#D4AF37] text-[#0F172A] text-sm px-8 py-3 rounded hover:bg-[#e0be59] transition-colors duration-300"
+              className="mt-8 cursor-pointer bg-[#5C4033] text-white text-sm px-8 py-3 rounded hover:bg-[#b97111] transition-colors duration-300"
             >
               PLACE ORDER
             </button>

@@ -4,38 +4,49 @@ import { FaPhoneAlt, FaEnvelope } from 'react-icons/fa'
 
 const Footer = () => {
   return (
-    <footer className="bg-[#f8fafc] text-[#0F172A] pt-20 px-6 sm:px-12 lg:px-20">
+    <footer className="bg-[#fafaf7] text-[#5C4033] pt-20 px-6 sm:px-12 lg:px-20">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-10">
+        {/* Logo & Message */}
         <div>
-          <img src={assets.logo} alt="Lederdorf" className="w-36 mb-4" />
-          <p className="text-sm leading-relaxed max-w-md">
-            Crafted timepieces for modern life. From daily wear to special occasions, our watches balance precision and style.
+          <img src={assets.logo} alt="Lederdorf Logo" className="w-36 mb-4" />
+          <p className="text-sm leading-relaxed max-w-md text-justify">
+            Every order means the world to us. We're here to bring you thoughtfully made styles you’ll love.
+            Your support helps us grow, create, and keep dreaming bigger.
+            <br /><br />
+            <span className="italic">With gratitude,</span> <br />
+            <strong>The Lederdorf Team</strong>
           </p>
         </div>
+
+        {/* Company Navigation */}
         <div>
-          <h4 className="text-xl font-semibold mb-5">Company</h4>
+          <h4 className="text-xl font-semibold mb-5">COMPANY</h4>
           <ul className="space-y-2 text-sm">
-            <li className="hover:text-[#D4AF37] transition cursor-pointer">Home</li>
-            <li className="hover:text-[#D4AF37] transition cursor-pointer">About</li>
-            <li className="hover:text-[#D4AF37] transition cursor-pointer">Delivery</li>
-            <li className="hover:text-[#D4AF37] transition cursor-pointer">Privacy Policy</li>
+            <li className="hover:text-[#b97111] transition cursor-pointer">Home</li>
+            <li className="hover:text-[#b97111] transition cursor-pointer">About</li>
+            <li className="hover:text-[#b97111] transition cursor-pointer">Delivery</li>
+            <li className="hover:text-[#b97111] transition cursor-pointer">Privacy Policy</li>
           </ul>
         </div>
+
+        {/* Contact Info */}
         <div>
-          <h4 className="text-xl font-semibold mb-5">Contact</h4>
+          <h4 className="text-xl font-semibold mb-5">GET IN TOUCH</h4>
           <ul className="space-y-3 text-sm">
             <li className="flex items-center gap-3">
-              <FaPhoneAlt className="text-[#D4AF37]" />
+              <FaPhoneAlt className="text-[#b97111]" />
               <span>+92 307 6258937</span>
             </li>
             <li className="flex items-center gap-3">
-              <FaEnvelope className="text-[#D4AF37]" />
+              <FaEnvelope className="text-[#b97111]" />
               <span>leder.dorf@gmail.com</span>
             </li>
           </ul>
         </div>
       </div>
-      <div className="border-t border-[#e5e7eb] pt-6 pb-4 text-center text-xs sm:text-sm text-[#6b7280]">
+
+      {/* Bottom Line */}
+      <div className="border-t border-[#e2dcd5] pt-6 pb-4 text-center text-xs sm:text-sm text-[#7a5a3c]">
         © 2025 lederdorf.com — All rights reserved.
       </div>
     </footer>

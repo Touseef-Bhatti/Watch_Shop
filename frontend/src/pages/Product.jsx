@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { ShopContext } from '../context/context'
+import { ShopContext } from '../context/ShopContext'
 import { assets } from '../assets/assets'
 import RelatedProducts from '../components/RelatedProducts'
 
@@ -23,7 +23,7 @@ const Product = () => {
   if (!productData) return <div className="opacity-0"></div>
 
   return (
-    <div className=" pt-10 bg-[#0F172A] text-white">
+    <div className=" pt-10 bg-[#fafaf7] text-[#5C4033]">
       {/* Product View */}
       <div className="flex gap-12 flex-col lg:flex-row px-4 sm:px-8 lg:px-20">
         {/* Product Images */}
@@ -54,7 +54,7 @@ const Product = () => {
             <img src={assets.star_dull_icon} className="w-4" />
             <p className="pl-2 text-sm">(122 reviews)</p>
           </div>
-          <p className="text-2xl text-[#D4AF37] font-semibold">{currency} {productData.price}</p>
+          <p className="text-2xl text-[#b97111] font-semibold">{currency} {productData.price}</p>
           <p className="mt-4 text-sm leading-relaxed text-justify">{productData.description}</p>
 
           {/* Size selection */}
@@ -100,10 +100,10 @@ const Product = () => {
       {/* Description & Reviews */}
       <div className="mt-20 px-4 sm:px-8 lg:px-20">
         <div className="flex gap-2 text-sm">
-          <b className="border border-gray-300 px-5 py-3  rounded-t">Description</b>
+          <b className="border border-gray-300 px-5 py-3 bg-white rounded-t">Description</b>
           <p className="border border-gray-300 px-5 py-3 text-gray-400 rounded-t">Reviews (122)</p>
         </div>
-        <div className="border border-gray-300 text-justify px-6 py-6 text-sm  leading-relaxed rounded-b">
+        <div className="border border-gray-300 text-justify px-6 py-6 text-sm bg-white leading-relaxed rounded-b">
           <p className="mb-4">
             Crafted with attention to detail, this stylish piece combines comfort with contemporary
             design. Made from premium materials, it ensures breathability and long-lasting wear.

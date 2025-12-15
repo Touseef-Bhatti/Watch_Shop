@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { ShopContext } from '../context/context'
+import { ShopContext } from '../context/ShopContext'
 import { assets } from '../assets/assets'
 import { useLocation } from 'react-router-dom'
 
@@ -16,13 +16,13 @@ const SearchBar = () => {
 
   return (
     <div className="flex flex-col items-center max-w-md mx-auto my-6 px-4">
-      <div className="flex items-center w-full border-b border-[#D4AF37] py-2">
+      <div className="flex items-center w-full border-b border-[#b97111] py-2">
         <input
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           type="text"
           placeholder="Search"
-          className="flex-grow bg-transparent outline-none text-[#0F172A] placeholder-[#D4AF37] text-base"
+          className="flex-grow bg-transparent outline-none text-[#5C4033] placeholder-[#b97111] text-base"
           autoFocus
         />
         <img
@@ -33,7 +33,7 @@ const SearchBar = () => {
       </div>
       <button
         onClick={() => setShowSearch(false)}
-        className="mt-3 text-sm text-[#D4AF37] hover:text-[#0F172A] cursor-pointer focus:outline-none"
+        className="mt-3 text-sm text-[#b97111] hover:text-[#5C4033] cursor-pointer focus:outline-none"
         aria-label="Close search"
       >
         Close
