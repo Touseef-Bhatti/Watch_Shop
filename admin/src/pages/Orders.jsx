@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
 import axios from 'axios'
-const backendUrl = import.meta.env.VITE_BACKEND_URL
-const currency = 'Rs'
+import { backendUrl, currency } from '../App'
 import { toast } from 'react-toastify'
 import { assets } from '../assets/assets'
 import {
@@ -197,7 +196,7 @@ const Orders = ({ token }) => {
                 </div>
 
                 <div>
-                  <b>Payment Method:</b> {order.paymentMethod}
+                  <b>Payment Method:</b> {order.payementMethod}
                 </div>
 
                 {/* Payment status with toggle menu */}
@@ -205,12 +204,12 @@ const Orders = ({ token }) => {
                   <button
                     onClick={() => togglePaymentMenu(order._id)}
                     className={`px-3 py-1 rounded-full font-semibold cursor-pointer
-                               ${order.payment
+                               ${order.payement
                                  ? paymentColors.Completed
                                  : paymentColors.Pending}
                                hover:brightness-90 transition`}
                   >
-                    {order.payment ? 'Completed' : 'Pending'}
+                    {order.payement ? 'Completed' : 'Pending'}
                   </button>
 
                   {editingPaymentFor === order._id && (
@@ -225,8 +224,8 @@ const Orders = ({ token }) => {
                           }
                           className={`cursor-pointer px-4 py-2 hover:bg-gray-100
                             ${
-                              (status === 'Completed' && order.payment) ||
-                              (status === 'Pending' && !order.payment)
+                              (status === 'Completed' && order.payement) ||
+                              (status === 'Pending' && !order.payement)
                                 ? 'font-bold underline'
                                 : ''
                             }`}
